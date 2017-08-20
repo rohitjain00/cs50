@@ -3,3 +3,4 @@ https://stackoverflow.com/questions/26961235/c-programming-divide-number-into-di
 http://ideone.com/6vHZnm
 https://www.tutorialspoint.com/cprogramming/c_type_casting.htm
 http://www.cprogramming.com/tutorial/c/lesson14.html
+and much more no need now to see theese
