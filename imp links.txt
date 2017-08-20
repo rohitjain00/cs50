@@ -1,0 +1,5 @@
+http://www.cquestions.com/2011/09/split-number-into-digits-in-c.html
+https://stackoverflow.com/questions/26961235/c-programming-divide-number-into-digits-and-save-them-in-list-array
+http://ideone.com/6vHZnm
+https://www.tutorialspoint.com/cprogramming/c_type_casting.htm
+http://www.cprogramming.com/tutorial/c/lesson14.html

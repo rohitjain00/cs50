@@ -1,0 +1,13 @@
+questions.txt
+
+Computer Science 50
+Problem Set 3
+
+0. It accepts all the dimensions from 3*3 to 9*9
+
+1. Two dimensional array
+
+2. void greet(void);
+
+3. init,draw,move,won
+
