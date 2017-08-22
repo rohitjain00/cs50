@@ -3,7 +3,7 @@
  *
  * Helper functions for Problem Set 3.
  */
- 
+
 #include <cs50.h>
 #include <stdio.h>
 #include <math.h>
@@ -26,17 +26,17 @@ bool search(int value, int values[], int n)
     {
         int start = 0;
         int end = n;
-        
+
         for(int i =0,j=log(n)/log(2);i<j;i++)
         {
-        
+
         if(values[(end+start)/2] > value){
             if(end<=start){
                 return false;
             }
             end = (end+start)/2;
         }
-        
+
         if(values[(end+start)/2] < value){
             if(end<=start){
                 return false;
@@ -48,9 +48,9 @@ bool search(int value, int values[], int n)
             exit(0);
         }
         }
-        
-        
-        
+
+
+
         return false;
     }
 }
@@ -61,9 +61,9 @@ bool search(int value, int values[], int n)
  */
 void sort(int values[], int n)
 {
-    
+
     // TODO: implement a sorting algorithm
-    int temp[65536];
+    int temp[65536] = {0};
     for (int i=0;i<n;i++){
         temp[values[i]] += 1;
     }
@@ -73,7 +73,7 @@ void sort(int values[], int n)
                 values[i+j] = k;
                 i++;
             }
-        }    
+        }
     }
 }
 

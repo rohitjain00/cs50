@@ -7,11 +7,11 @@ int * convertNumberIntoArray(unsigned long long number);
 int getLengthOfNumber(unsigned long long number);
 
 int main (void){
-    
+
     long long number = get_long_long();
-    
+
     int i;
-    
+
     int arr_len = getLengthOfNumber(number);
 
     int* arr = convertNumberIntoArray(number);
@@ -29,25 +29,25 @@ int main (void){
     for(i=0; i<arr_len; i+=2) {
     	step2 += arr[i];
     }
-    
+
      int stepsTotal = step1 + step2;
-     
+
      int validFlag=0;
      if (stepsTotal%10==0) {
          validFlag = 1;
          }
-    
+
     if(validFlag == 1) {
-    
+
     if (arr[arr_len-1] == 3 && (arr[arr_len-2] == 4 || arr[arr_len-2] == 7)) {
     		printf("AMEX\n");
     	}
- 
+
     	// MasterCard
     	if (arr[arr_len-1] == 5 && (arr[arr_len-2] >= 1 && arr[arr_len-2] <= 5)) {
     		printf("MASTERCARD\n");
     	}
- 
+
     	// Visa
     	if (arr[arr_len-1] == 4) {
     		printf("VISA\n");
@@ -55,8 +55,8 @@ int main (void){
     }
     else {
         printf("INVALID\n");
-    }    
-    
+    }
+
 }
 
 
