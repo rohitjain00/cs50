@@ -12,7 +12,6 @@ int main(int argc , string argv[])
     char alphabets[53];
 
     //making the first element to be empty so that all possible values upto 4 can be crypted and checked
-     alphabets[0]= \0;
     //arrange all the possible alphabets in an array
     for(int i='a',j=1,k='A';j<27;i++,j++,k++){
         alphabets[j]=i;
