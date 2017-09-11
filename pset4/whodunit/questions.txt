@@ -1,17 +1,27 @@
-1.  defines the type of int and set its width according to us like signed and unsigned int
-2.  define the type of integer and bytes it is going to take
+1.  defines the type of int and set its width according to Requirnment
+
+2.  Sets the width of each int and calssify them as signed or unsigned
+
 3.  BYTE is 8 bit long(unsigned)
     DWORD is 32 bit long (unsigned)
     LONG is 32 bit long (signed)
     WORD is 16 bit long (unsigned)
 
-4.  BM in ASCII code
-5.  bfsize is the size of whole BMP file while bisize is the size of BITMAPINFOHEADER file which is 40 bytes
+4.  BM in ASCII code (0x4d42) in Hexa deciaml
+
+5.  bfsize is the size of whole BMP file while bisize is the size of BITMAPINFOHEADER Struct file which is 40 bytes
+
 6.  bitmap is top down and its origin is upper left corner
+
 7.  biXpelsPerMeter bytes per pixels in X direction
     biYpelsPerMeter bytes per pixels in Y direction
-8.  if the file is unable to open then fopen function returns NULL
-9.  it is the number of elements to read with each of size of a byte
+
+8.  if the file is not readable or proper permissions are not available for the file then it wil return null
+
+9.  it specifies the number of elements to read at a time each with size byte
+
 10. its value is equal to 3
-11. it seeks to a definite word in a file
-12. it sets the offset to relative of the current position
+
+11. it seeks to a definite byte in a file
+
+12. it sets the offset to relative of the current position in a file while seeking

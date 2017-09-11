@@ -1,7 +1,7 @@
 /**
  * Copies a BMP piece by piece, just because.
  */
-
+       
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     char *infile = argv[1];
     char *outfile = argv[2];
 
-    // open input file
+    // open input file 
     FILE *inptr = fopen(infile, "r");
     if (inptr == NULL)
     {
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     fread(&bi, sizeof(BITMAPINFOHEADER), 1, inptr);
 
     // ensure infile is (likely) a 24-bit uncompressed BMP 4.0
-    if (bf.bfType != 0x4d42 || bf.bfOffBits != 54 || bi.biSize != 40 ||
+    if (bf.bfType != 0x4d42 || bf.bfOffBits != 54 || bi.biSize != 40 || 
         bi.biBitCount != 24 || bi.biCompression != 0)
     {
         fclose(outptr);
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
     fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
 
     // determine padding for scanlines
-    int padding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+    int padding = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 
     // iterate over infile's scanlines
     for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
@@ -75,12 +75,6 @@ int main(int argc, char *argv[])
 
             // read RGB triple from infile
             fread(&triple, sizeof(RGBTRIPLE), 1, inptr);
-
-            if (triple.rgbtBlue == 0xff && triple.rgbtRed == 0xff && triple.rgbtGreen == 0xff)
-            {
-                triple.rgbtRed = 0x00;
-                triple.rgbtGreen = 0x00;
-            }
 
             // write RGB triple to outfile
             fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
