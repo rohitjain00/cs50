@@ -6,18 +6,22 @@
 int main(void)
 {
     //getting a string from user
+    printf("Name : ");
    string name= get_string();
-    //printing the first letter
-    printf("%C",toupper(name[0]));
-    
+   
+    if (name[0] !=32 ){
+           printf("%c",toupper(name[0]));
+       }
     //for every word in the name
    for(int i=0,n=strlen(name);i<n;i++)
    {
-       //if the ith word of name is space then
-        if (name[i] == 32)
-        {
-            printf("%c",toupper(name[i+1]));
-        }
+        int j = 1;
+        //if name ith char is space and i+jth char is not then
+          if (name[i] == 32 && name[i+j] != 32){
+              printf("%C",toupper(name[i+j]));
+              }
+              j++;
+      
    }
    printf("\n");
 }
