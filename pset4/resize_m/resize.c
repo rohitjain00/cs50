@@ -9,6 +9,7 @@
 
 int main(int argc, char *argv[])
 {
+
     // ensure proper usage
     if (argc != 4)
     {
@@ -24,7 +25,7 @@ int main(int argc, char *argv[])
      if (factor > 100 )
     {
         fprintf(stderr, "factor cannot be greater than 100");
-        return 4;
+        return 5;
     }
 
     // open input file
@@ -63,24 +64,29 @@ int main(int argc, char *argv[])
     }
 
     //changing the New file accordingly
-    bi.biWidth *=factor;
-    bi.biHeight *=factor;
-    bf.bfSize = ((bf.bfSize-54)*factor)+54;
 
-    //changing the absolute size of BMP
-    bi.biSizeImage = (bi.biWidth * sizeof(RGBTRIPLE) +
-                        (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4) * abs(bi.biHeight);
+    // https://stackoverflow.com/questions/9127246/copy-struct-to-struct-in-c
+    BITMAPFILEHEADER bf_out = bf;
+    BITMAPINFOHEADER bi_out = bi;
 
-    // write outfile's BITMAPFILEHEADER
-    fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr);
-
-    // write outfile's BITMAPINFOHEADER
-    fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
+    bi_out.biWidth *=factor;
+    bi_out.biHeight *=factor;
+    bf_out.bfSize = ((bf.bfSize-54)* factor)+54;
 
     // determine padding for scanlines
-    int padding_new = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
-    int padding_old = (4 - ((bi.biWidth/factor) * sizeof(RGBTRIPLE)) % 4) % 4;
+    int padding_out = (4 - (bi_out.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+    int padding = (4 - ((bi.biWidth) * sizeof(RGBTRIPLE)) % 4) % 4;
 
+    //changing the absolute size of BMP
+    bi_out.biSizeImage = ((bi_out.biWidth * sizeof(RGBTRIPLE) +padding) * abs(bi.biHeight));
+
+    // write outfile's BITMAPFILEHEADER
+    fwrite(&bf_out, sizeof(BITMAPFILEHEADER), 1, outptr);
+
+    // write outfile's BITMAPINFOHEADER
+    fwrite(&bi_out, sizeof(BITMAPINFOHEADER), 1, outptr);
+
+    int inptr_line = ((bi.biWidth * sizeof(RGBTRIPLE) ) + padding);
 
    // iterate over infile's scanlines
     for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
@@ -105,18 +111,18 @@ int main(int argc, char *argv[])
             }
 
             // skip over padding, if any
-            fseek(inptr, padding_old, SEEK_CUR);
+            fseek(inptr, padding, SEEK_CUR);
 
             //then add it back (to demonstrate how)
-            for (int k = 0; k < padding_new; k++)
+            for (int k = 0; k < padding_out; k++)
             {
                 fputc(0x00, outptr);
             }
 
-            fseek(inptr, -(bi.biWidth * 3 )/ factor + padding_old, SEEK_CUR);
+            fseek(inptr, -inptr_line, SEEK_CUR);
         }
 
-        fseek(inptr, (bi.biWidth * 3 )/ factor + padding_old, SEEK_CUR);
+        fseek(inptr, inptr_line, SEEK_CUR);
     }
 
     // close infile
