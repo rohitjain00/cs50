@@ -18,13 +18,13 @@ int main(int argc, char *argv[])
     }
 
     // remember filenames
-    int factor = atoi(argv[1]);
+    float factor = atoi(argv[1]);
     char *infile = argv[2];
     char *outfile = argv[3];
 
-     if (factor > 100 )
+     if (factor > 100 || factor < 0 )
     {
-        fprintf(stderr, "factor cannot be greater than 100");
+        fprintf(stderr, "factor cannot be greater than 100 and less than 0");
         return 5;
     }
 
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     // https://stackoverflow.com/questions/9127246/copy-struct-to-struct-in-c
     BITMAPFILEHEADER bf_out = bf;
     BITMAPINFOHEADER bi_out = bi;
-
+    
     bi_out.biWidth *=factor;
     bi_out.biHeight *=factor;
     bf_out.bfSize = ((bf.bfSize-54)* factor)+54;

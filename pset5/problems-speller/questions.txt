@@ -1,7 +1,19 @@
-0.  TODO
-1.  TODO
-2.  TODO
-3.  TODO
-4.  TODO
-5.  TODO
-6.  TODO
+0.  world's largest word
+1.  shows the resource usage of a process
+2.  16 members
+3.  to make program fast and cancel the time to call by value
+4.  for loop runs till we hit the EOF character
+    if the first character of file is character or apostrophes then the first if loop is executed
+    now the character is appended in the words we created for every word in index position and the index is increased by one
+    but if the index exceeds the LENGTH of word then ignore the whole word and set index to zero
+
+    else if we found a word in which the char is number then also ignore the whole word as we would accept only alphabetical word and set index to zero
+
+
+    else if we found the index to be greater then zero then we terminate the current word and add \0 i.e end of word and we add one in words
+    now to check the time taken we used getrusage and to check misspelled we used the function misspelled that returns true if true and false if false
+    and if the misspelled is true then it prints the word and increases the misspellings by one
+    and after all this set the index to zero in order to get new word
+
+5.  to make sure we get only the alphabets in word and not alphanumeric word or any special character
+6.  to make sure the argument's values does not get changed anyway

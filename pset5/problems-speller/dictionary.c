@@ -3,16 +3,58 @@
  */
 
 #include <stdbool.h>
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
 
 #include "dictionary.h"
+#define DICTLENGTH 143091
+
+char **allwords;
 
 /**
  * Returns true if word is in dictionary else false.
  */
 bool check(const char *word)
 {
-    // TODO
-    return false;
+    //logarithmic complexity
+    int start = 0;
+    int end = DICTLENGTH;
+    int k = 0;
+
+    while (true)
+    {
+
+        if(word[k] > allwords [ ( start + end ) / 2] [k] )
+        {
+            if(end <= start){
+                return false;
+            }
+            end = (end + start)/2;
+
+        }
+
+        if (word[k] > allwords [ ( start + end ) / 2] [k] )
+        {
+            if(end <= start){
+                return false;
+            }
+            start = (end + start) / 2;
+
+        }
+
+
+        if (word[k] == allwords [ ( start + end ) / 2] [k] )
+        {
+            if (word[k] == '\n')
+            {
+                break;
+            }
+
+            k++;
+        }
+    }
+    return true;
 }
 
 /**
@@ -20,8 +62,53 @@ bool check(const char *word)
  */
 bool load(const char *dictionary)
 {
-    // TODO
-    return false;
+    int rows = DICTLENGTH;
+    int columns = LENGTH;
+
+    char **allwords = (char **) malloc(rows * sizeof(char *));
+
+    for (int i = 0; i < rows ;i++)
+    {
+
+        allwords[i] = (char *) malloc(columns * sizeof(char));
+
+        if(allwords[i] == NULL)
+        {
+            fprintf(stderr, "out of memory\n");
+            return false;
+        }
+
+    }
+
+    FILE *dict = fopen(dictionary,"r");
+    if (dict == NULL) {
+        return false;
+    }
+    int index = 0;
+    int row = 0;
+
+    while (true)
+    {
+        //to define a temperary char to store for once
+        char tempchar = fgetc(dict);
+
+        //to determine the new line character
+        if (tempchar == '\n')
+        {
+            index = 0;
+            row++;
+        }
+
+        allwords[row][index] = tempchar;
+        index++;
+
+        if (tempchar == EOF)
+        {
+            break;
+        }
+    }
+    fclose(dict);
+    return true;
 }
 
 /**
@@ -29,8 +116,7 @@ bool load(const char *dictionary)
  */
 unsigned int size(void)
 {
-    // TODO
-    return 0;
+    return (DICTLENGTH);
 }
 
 /**
@@ -38,6 +124,6 @@ unsigned int size(void)
  */
 bool unload(void)
 {
-    // TODO
-    return false;
+    free(allwords);
+    return true;
 }

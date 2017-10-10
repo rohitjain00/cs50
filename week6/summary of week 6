@@ -1,0 +1,24 @@
+IPv4 is the most common ip addresses used now a days
+DNS Domain Name server is the yellow pages of internet
+DHCP dynamic host transmission protocol provides an auto IP to the comuter when it is connected to internet
+
+
+nslookup function to get to the DNS and get the Real IP instead of Domain
+
+traceroute to trace th routers upto there
+
+
+TCP transmission control protocol
+splits data into peices and sends multiple packets with proper naming
+
+port is the additional number with the IP adress the determines the application that is meant to transfferred
+
+Firewall keeps out unwanted packets and protects personnel information to leak out and can block all trafic on a certain port
+
+VPN virtual private network acts as encrypted tunnel and connects to your local school or college network but it costs some time to send the packets over there and fore
+
+HTTP hypertext transfer protocol most commonto send data/messages for communication
+request in HHTP is GET where we send a message that literraly reads smthing
+and the reply are some of the most renowned once
+
+Rest All is Html

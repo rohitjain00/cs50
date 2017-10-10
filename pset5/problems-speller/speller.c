@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
     time_load = calculate(&before, &after);
 
     // try to open text
+    //used ternary operator if this is present then? this will be its name: else this;
     char *text = (argc == 3) ? argv[2] : argv[1];
     FILE *fp = fopen(text, "r");
     if (fp == NULL)
@@ -65,6 +66,7 @@ int main(int argc, char *argv[])
 
     // prepare to spell-check
     int index = 0, misspellings = 0, words = 0;
+    //length for word and one extra for \0 in last
     char word[LENGTH+1];
 
     // spell-check each word in text
@@ -170,7 +172,7 @@ int main(int argc, char *argv[])
     printf("TIME IN check:        %.2f\n", time_check);
     printf("TIME IN size:         %.2f\n", time_size);
     printf("TIME IN unload:       %.2f\n", time_unload);
-    printf("TIME IN TOTAL:        %.2f\n\n", 
+    printf("TIME IN TOTAL:        %.2f\n\n",
      time_load + time_check + time_size + time_unload);
 
     // that's all folks

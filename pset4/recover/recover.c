@@ -1,92 +1,59 @@
-/**
- * recover jpeg from a memory card raw file
- */
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <cs50.h>
+#include <stdint.h>
 
-
-int
-main (int argc, char *argv[])
+int main(void)
 {
-  // ensure proper usage
-  if (argc != 2)
+    //Open memory card
+    FILE* infile = fopen("card.raw", "r");
+
+
+    uint8_t buffer[512];
+
+    int jpg = 0;
+
+    int floodgate = 0;
+
+    char* title = malloc((sizeof(int)*3 + sizeof(char)*3));
+
+    FILE* img = fopen("000.jpg", "a");
+
+    while(fread(&buffer, sizeof(buffer), 1, infile))
     {
-      fprintf (stderr, "Usage: ./recover raw file\n");
-      return 1;
-    }
+    	if(buffer[0]==0xff && buffer[1]==0xd8 && buffer[2]==0xff && (buffer[3]==0xe0 || buffer[3]==0xe1))
+    	{
+    		if(floodgate ==1)
+    		{
+    			fclose(img);
+    			//Close current jpg
+    			jpg++;
 
-  // remember filenames
-  char *memcard = argv[1];
+    			if(jpg<10)
+    			{
+    				sprintf(title, "00%d.jpg", jpg);
+    			}
+    			else
+    			{
+    				sprintf(title, "0%d.jpg", jpg);
+    			}
 
-  // open input file
-  FILE *inFile = fopen (memcard, "r");
-  if (inFile == NULL)
-    {
-      fprintf (stderr, "Could not open %s.\n", memcard);
-      return 2;
-    }
-  int sizeOfABlock = 512;//byte
-  int block[sizeOfABlock];
-  //store number of files recovered
-  int n = 0;
-  char filename[8];
-  int noOfBlocks = 0;
+    			//Opens new jpg file
+    			img = fopen(title,"a");
+    		}
 
-  //iterate over the whole inFile and break when recive EOF character
-  while (true)
-    {
-      noOfBlocks++;
+    		floodgate = 1;
+    	}
 
-      fread (&block, sizeOfABlock, 1, inFile);
 
-      //to check the exsistence of a JPEG starting
-      //condition to be jpeg
-      if (block[0] == 0xff && block[1] == 0xd8 && block[2] == 0xff && block[3] > 0xe0 && block[3] < 0xef)
-	{
-	  printf ("Found a jpeg");
-
-	  //open a new outfile with name according to the number it found
-	  sprintf (filename, "%03i.jpg", n);
-	  FILE *outfile = fopen (filename, "w");
-
-	  if (outfile == NULL)
+	    if(floodgate ==1)
 	    {
-	      fprintf (stderr, "Could not open %s.\n", filename);
-	      fclose (inFile);
-	      return 3;
+	    	fwrite(&buffer, sizeof(buffer), 1, img);
 	    }
-
-	  //wrtie the first block of the new jpeg
-	  fwrite (&block, sizeOfABlock, 1, outfile);
-
-	  //read and write from 2nd block until next jpeg starts
-	  while (true)
-	    {
-	      fread (&block, sizeOfABlock, 1, inFile);
-
-	      if (block[0] == 0xff && block[1] == 0xd8 && block[2] == 0xff && block[3] > 0xe0 && block[3] < 0xef)
-		{
-		    //seek a block back
-		  fseek (inFile, sizeOfABlock, SEEK_CUR);
-		  break;
-		}
-
-	      fwrite (&block, sizeOfABlock, 1, outfile);
-	    }
-	  fclose (outfile);
-	  //to change the filename each time
-	  n++;
-	}
-      if (feof (inFile))
-	{
-	  break;
-	}
     }
-    fclose (inFile);
-    printf ("Number of recovered jpeg %d\n", n);
-    printf ("Number of blocks checked %d\n", noOfBlocks);
-  // success
-  return 0;
+
+
+    free(title);
+    fclose(img);
+    fclose(infile);
+
 }

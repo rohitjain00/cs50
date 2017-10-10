@@ -27,28 +27,33 @@ bool search(int value, int values[], int n)
         int start = 0;
         int end = n;
 
-        for(int i =0,j=log(n)/log(2);i<j;i++)
+        for (int i =0,j=log(n)/log(2);i<j;i++)
         {
 
-        if(values[(end+start)/2] > value){
-            if(end<=start){
-                return false;
+          if (values[(end+start)/2] > value)
+            {
+                if (end<=start)
+                {
+                    return false;
+                }
+
+                end = (end+start)/2;
             }
-            end = (end+start)/2;
-        }
 
-        if(values[(end+start)/2] < value){
-            if(end<=start){
-                return false;
+            if (values[(end+start)/2] < value)
+            {
+                if (end<=start)
+                {
+                    return false;
+                }
+
+                start = (end+start)/2;
             }
-            start = (end+start)/2;
+            if (values[(end+start)/2] == value)
+            {
+                return true;
+            }
         }
-        if(values[(end+start)/2] == value){
-            return true;
-        }
-        }
-
-
 
         return false;
     }
@@ -75,7 +80,7 @@ void sort(int values[], int n)
                 swap++;
             }
         }
-        if(swap ==0){
+        if(swap == 0){
             break;
         }
     }
