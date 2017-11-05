@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+import sys
+import cs50
+from helpers import get_user_timeline
+from analyzer import Analyzer
+from termcolor import colored
+
+
+# TODO
+def main ():
+    if len(sys.argv) != 2:
+        sys.exit("Usage: ./tweet screenName")
+
+    recent_tweets = get_user_timeline(sys.argv[1],50)
+
+    if recent_tweets == None:
+        sys.exit("Use proper Screen Name")
+
+    analyze = Analyzer('positive-words.txt','negative-words.txt')
+
+    for tweets in recent_tweets:
+        sentiment = analyze.analyze(tweets)
+
+        if sentiment > 0:
+            print(colored(str(sentiment) + " " + tweets,"green"))
+        if sentiment < 0:
+            print(colored(str(sentiment) + " " + tweets,"red"))
+        else:
+            print(colored(str(sentiment) + " " + tweets,"yellow"))
+
+if __name__ == "__main__":
+    main()
