@@ -27,33 +27,29 @@ bool search(int value, int values[], int n)
         int start = 0;
         int end = n;
 
-        for (int i =0,j=log(n)/log(2);i<j;i++)
+        for(int i =0,j=log(n)/log(2);i<j;i++)
         {
 
-          if (values[(end+start)/2] > value)
-            {
-                if (end<=start)
-                {
-                    return false;
-                }
-
-                end = (end+start)/2;
+        if(values[(end+start)/2] > value){
+            if(end<=start){
+                return false;
             }
-
-            if (values[(end+start)/2] < value)
-            {
-                if (end<=start)
-                {
-                    return false;
-                }
-
-                start = (end+start)/2;
-            }
-            if (values[(end+start)/2] == value)
-            {
-                return true;
-            }
+            end = (end+start)/2;
         }
+
+        if(values[(end+start)/2] < value){
+            if(end<=start){
+                return false;
+            }
+            start = (end+start)/2;
+        }
+        if(values[(end+start)/2] == value){
+            return true;
+            exit(0);
+        }
+        }
+
+
 
         return false;
     }
@@ -65,25 +61,21 @@ bool search(int value, int values[], int n)
  */
 void sort(int values[], int n)
 {
-    int MAX = n;
-    // TODO: implement a sorting algorithm
 
-    //for max-1 time do the following loop
-    for(int k=0;k<MAX-1;k++){
-        int swap = 0;
-        for (int i=0,j=1;j<MAX+1;i++,j++)
-        {
-            int temp = values[i];
-            if (values[i]>values[j]){
-                values[i] = values[j];
-                values[j] = temp;
-                swap++;
+    // TODO: implement a sorting algorithm
+    int temp[65536] = {0};
+    for (int i=0;i<n;i++){
+        temp[values[i]] += 1;
+    }
+    for (int i=0,k=0;i<n;i++,k++){
+        if(temp[k] !=0){
+            for (int j = 0;j<temp[k];j++){
+                values[i+j] = k;
+                i++;
             }
-        }
-        if(swap == 0){
-            break;
         }
     }
 }
+
 
 

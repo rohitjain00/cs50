@@ -4,29 +4,12 @@ from helpers import get_user_timeline
 import helpers
 from analyzer import Analyzer
 
-app = Flask(__name__)
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-@app.route("/search")
-def search():
-
-    # validate screen_name
-    screen_name = request.args.get("screen_name", "")
-    if not screen_name:
-        return redirect(url_for("index"))
-
-    # get screen_name's tweets
-    recent_tweets = get_user_timeline(screen_name,100)
-    if recent_tweets == None:
-        sys.exit("ensure screen Name")
-
+def percent (list):
     analyze = Analyzer('positive-words.txt','negative-words.txt')
 
     no_positive,no_negative,no_neutral,positive,negative,neutral = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-    for tweet in recent_tweets:
+    for tweet in list:
         sentiment = analyze.analyze(tweet)
 
         if sentiment > 0:
@@ -40,6 +23,30 @@ def search():
         negative = (no_negative/len(recent_tweets))*100
         neutral = (no_neutral/len(recent_tweets))*100
 
+        return positive,negative,neutral
+
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/search")
+
+def search():
+
+    # validate screen_name
+    screen_name = request.args.get("screen_name", "")
+    if not screen_name:
+        return redirect(url_for("index"))
+
+    # get screen_name's tweets
+    recent_tweets = get_user_timeline(screen_name,100)
+    if recent_tweets == None:
+        sys.exit("ensure screen Name")
+
+    positive,negative,neutral = percent(recent_tweets)
 
     # generate chart
     chart = helpers.chart(positive, negative, neutral)
