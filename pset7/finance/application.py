@@ -55,21 +55,22 @@ def buy():
 
     if no_shares < 0:
         return apology("Negative Dude Seriously!")
+    username = session.get("user")
 
-    cash = db.execute("SELECT cash FROM users WHERE username = :username", username=request.form.get("username"))
+    cash = db.execute("SELECT cash FROM users WHERE username = :username", username=username)
 
-    to_spend = no_shares * shares.price
+    print (cash)
 
-    if to_spend > cash:
-        return apology("PaISA Nhi H RE!!")
-    else:
-        db.execute("UPDATE user SET cash = cash - :to_spend WHERE username = :username ",
-        to_spend = to_spend, username=request.form.get("username"))
-        #add the log to buy_history table
-        db.execute("INSERT INTO buy_history (samay,price,username,stock_name,share_no) VALUES (:date,:price,:username,:stock_name,:share_no)"
-        ,date = datetime.datetime.now(),price = shares.price,username = request.form.get("username"),stock_name = share_short,share_no =
-        no_share)
+    to_spend = no_shares * shares["price"]
 
+
+    present_cash = cash["cash"] - to_spend
+    db.execute("UPDATE user SET cash = :present_cash WHERE username = :username ",
+    present_cash = present_cash, username=username)
+    #add the log to buy_history table
+    db.execute("INSERT INTO buy_history (samay,price,username,stock_name,share_no,status) VALUES (:date,:price,:username,:stock_name,:share_no,buy)"
+    ,date = datetime.datetime.now(),price = shares["price"],username = username,stock_name = share_short,share_no =
+    no_share)
     return render_template("layout.html")
 
 
@@ -93,6 +94,9 @@ def login():
         if not request.form.get("username"):
             return apology("must provide username")
 
+
+
+
         # ensure password was submitted
         elif not request.form.get("password"):
             return apology("must provide password")
@@ -107,6 +111,7 @@ def login():
         # remember which user has logged in
         session["user_id"] = rows[0]["id"]
 
+        session["user"] = request.form.get("username")
         # redirect user to home page
         return redirect(url_for("index"))
 
