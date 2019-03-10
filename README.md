@@ -1,8 +1,10 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/rohitjain00/cs50/badge)](https://www.codefactor.io/repository/github/rohitjain00/cs50)
+
+
 # [cs50](https://cs50.harvard.edu) course solved psets
 * Week by week solved psets for the cs50 (2017) course.
 * Written and compiled on cloud9 servers.
 
-[![CodeFactor](https://www.codefactor.io/repository/github/rohitjain00/cs50/badge)](https://www.codefactor.io/repository/github/rohitjain00/cs50)
 
 # What I'll Learn
 
